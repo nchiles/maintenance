@@ -18,6 +18,7 @@ machineRoutes.route("/machines").get(function (req, res) {
   db_connect
     .collection("machines")
     .find({})
+    .sort({vectorName: 1})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
