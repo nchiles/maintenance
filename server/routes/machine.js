@@ -25,6 +25,19 @@ machineRoutes.route("/machines").get(function (req, res) {
     });
 });
 
+//preventative maintenance list
+machineRoutes.route("/machines/preventative-maintenance").get(function (req, res) {
+  let db_connect = dbo.getDb("machineDB");
+  db_connect
+    .collection("machines")
+    .find({ preventativeMaintenance: { $exists: true } })
+    .sort({vectorName: 1})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
 // This section will help you get a single machine by id
 machineRoutes.route("/machines/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
