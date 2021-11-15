@@ -1,0 +1,76 @@
+.MachineCard {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  background-color: #fcfcfc;
+  color: #323534;
+  /* height: fit-content; */
+  /* max-width: 900px; */
+  margin: 4rem 0;
+  /* width: 85%; */
+  border-radius: 7px;
+  box-shadow: 1px 3px 20px 1px #acaeb2cf;
+  padding: 55px 0 70px 0;
+  /* border-left: 15px solid; */
+  border-left-color: currentcolor;
+  transition: all 200ms;
+}
+
+.MachineCardData {
+  width: 93%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1;
+  min-height: 300px;
+}
+
+.MachineCardInfoContainer {
+  height: 300px;
+  color: #3e3e3e;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  text-align: center;
+  /* padding: 0 20px 0 0; */
+}
+
+.MachineCardImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.MachineImage {
+  height: 300px;
+}
+
+.MachineCardName {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.MachineCardSerial {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.MachineModel {
+  font-size: .85rem;
+  font-weight: 200;
+}
+
+.MachineButtonContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.MachineCardButton {
+  width: 100%;
+  margin:5px;
+}
