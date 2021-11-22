@@ -1,0 +1,77 @@
+.btn-check:focus + .btn-outline-secondary, .btn-outline-secondary:focus, .MachineListSearch:focus {
+  box-shadow: none !important;
+}
+
+.MachineListManualButton:hover {
+  background-color:#6c757d !important;
+}
+
+.MachineListColOne {
+  width: 10%;
+}
+
+.MachineListColTwo {
+  width: 50%;
+}
+
+.MachineListColThree {
+  width: 0.001%;
+}
+
+.MachineListVectorName {
+  text-decoration: none;
+  color: black;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.MachineListImage {
+  width: 100px;
+}
+
+.MachineListModel {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgb(95, 107, 113);
+}
+
+.MachineListManualButton, .MachineListSerial {
+  text-align: right;
+  width: 140px;
+}
+
+.MachineListSerial {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.TitleRow {
+  display: flex;
+  margin: 2rem 0 0.5rem 0;
+  flex-wrap: wrap;
+}
+
+.MachineListTitle {
+  font-weight: 900;
+  flex: 1;
+}
+
+.MachineListSearchContainer {
+  display: flex;
+  height: fit-content;
+  align-self: center;
+}
+
+.MachineListTags, .MachineListTagWrapper {
+  display:flex;
+  flex: 1;
+  gap: 5px;
+  margin-bottom: 1rem;
+}
+
+.MachineListTag {
+  flex: 1;
+  /* margin: 1rem 3px 1rem 3px; */
+  column-gap: 10px;
+}

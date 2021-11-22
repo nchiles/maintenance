@@ -7,6 +7,7 @@ function Machine() {
   
   const { slug } = useParams();
   const [machine, setMachine] = useState([]);
+  
   useEffect(() => {    
     fetch("http://localhost:4000/machines/" + slug)         
       .then(res => {

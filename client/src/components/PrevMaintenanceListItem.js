@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function PrevMaintenanceListItem(props) {
   return (
@@ -49,7 +49,7 @@ function PrevMaintenanceListItem(props) {
             </tr>
             <tr>
               <td>                
-                <a href={'#'} className="btn btn-dark MachinesManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Update</a>      
+                {/* <a href={'#'} className="btn btn-dark MachinesManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Update</a>       */}
               </td>  
             </tr>
           </tbody>

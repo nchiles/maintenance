@@ -22,7 +22,7 @@ class MaintenanceProceduresList extends Component {
       })
       .then((data) => {
         const prevMaintArrs = data.map((machine) => { return machine.preventativeMaintenance })
-        console.log(prevMaintArrs.flat())
+        // console.log(prevMaintArrs.flat());
         this.setState({ machines: data, procedures: prevMaintArrs.flat() });
       })
       .catch(function (error) {
