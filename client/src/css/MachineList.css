@@ -30,7 +30,7 @@
 }
 
 .MachineListModel {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 300;
   color: rgb(95, 107, 113);
 }
@@ -43,6 +43,7 @@
 .MachineListSerial {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.2rem;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
@@ -63,15 +64,26 @@
   align-self: center;
 }
 
-.MachineListTags, .MachineListTagWrapper {
+.MachineListDeptTags, .MachineListDeptTagWrapper {
   display:flex;
   flex: 1;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.MachineListDeptTag {
+  flex: 1;
+  column-gap: 10px;
+}
+
+.MachineListCatTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 5px;
   margin-bottom: 1rem;
 }
 
-.MachineListTag {
-  flex: 1;
-  /* margin: 1rem 3px 1rem 3px; */
-  column-gap: 10px;
+.MachineListCatTag {
+  font-size: 0.6rem !important;
 }

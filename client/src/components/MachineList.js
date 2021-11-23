@@ -32,13 +32,18 @@ const MachineList = () => {
     }));
   }
 
-  //tag filter
-  const handleTagFilter = e => {
+  //tag filters
+  const handleDeptTagFilter = e => {
     setFilteredMachines(e.target.id === 'All' ? machines : machines.filter(machine => machine.department === e.target.id));
   }
 
-  //get departments for tags
-  const uniqueDepts = [...new Set(machines.map(machine => machine.department))];
+  const handleCatTagFilter = e => {
+    setFilteredMachines(e.target.id === 'All' ? machines : machines.filter(machine => machine.category === e.target.id));
+  }
+
+  //get filter tags
+  const uniqueDepartments = [...new Set(machines.map(machine => machine.department))].sort();
+  const uniqueCategories = [...new Set(machines.map(machine => machine.category))].sort();
 
   //render table
   return (
@@ -51,17 +56,29 @@ const MachineList = () => {
         </div>
       </div>
        
-      <div className='MachineListTags'>
-        <span className='MachineListTagWrapper'>
-          <input key='All' onChange={handleTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
-          <label key='All' className='MachineListTag btn btn-outline-secondary' htmlFor='All' >All</label>
+      <div className='MachineListDeptTags'>
+        <span className='MachineListDeptTagWrapper'>
+          <input key='All' onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
+          <label key='All' className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
         </span>
         {
-          uniqueDepts.map((dept) => {
+          uniqueDepartments.map((dept) => {
             return (
-              <span className='MachineListTagWrapper'>
-                <input key={dept} onChange={handleTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
-                <label key={dept} className='MachineListTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
+              <span className='MachineListDeptTagWrapper'>
+                <input key={dept} onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
+                <label key={dept} className='MachineListDeptTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
+              </span>
+            )
+          })
+        }
+      </div>
+      <div className='MachineListCatTags'>
+        {
+          uniqueCategories.map((cat) => {
+            return (
+              <span className='MachineListCatTagWrapper'>
+                <input key={cat} onChange={handleCatTagFilter} type='radio' name='options' className='btn-check' id={cat} autoComplete='off'/>
+                <label key={cat} className='MachineListCatTag btn btn-outline-secondary' htmlFor={cat}>{cat}</label>
               </span>
             )
           })
