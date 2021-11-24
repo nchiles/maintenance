@@ -30,13 +30,34 @@ machineRoutes.route("/machines/preventative-maintenance").get(function (req, res
   let db_connect = dbo.getDb("machineDB");
   db_connect
     .collection("preventativeMaintenance")
-    .find()
+    .aggregate([
+      {$set: {machine_id: {$toObjectId: "$machine_id"} }}, //change machine_id to an ObjectId in order to match machines collection ObjectId's
+      { $lookup:
+        {
+          from: "machines",
+          localField: "machine_id", // convert this string to objectId
+          foreignField: "_id", 
+          as: "machine"
+        }
+      }
+    ])
     .sort({frequency: 1})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
     });
 });
+// machineRoutes.route("/machines/preventative-maintenance").get(function (req, res) {
+//   let db_connect = dbo.getDb("machineDB");
+//   db_connect
+//     .collection("preventativeMaintenance")
+//     .find()
+//     .sort({frequency: 1})
+//     .toArray(function (err, result) {
+//       if (err) throw err;
+//       res.json(result);
+//     });
+// });
 
 // get single machine by id
 machineRoutes.route("/machines/:id").get(function (req, res) {
