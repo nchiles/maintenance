@@ -28,7 +28,7 @@ const MachineList = () => {
 
     let query = e.target.value.toLowerCase();
     setFilteredMachines(machines.filter( machine => {
-      return machine.vectorName.toLowerCase().includes(query) || machine.manufacturerName.toLowerCase().includes(query);
+      return machine.vector_name.toLowerCase().includes(query) || machine.manufacturer_name.toLowerCase().includes(query);
     }));
   }
 
@@ -57,16 +57,16 @@ const MachineList = () => {
       </div>
        
       <div className='MachineListDeptTags'>
-        <span className='MachineListDeptTagWrapper'>
-          <input key='All' onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
-          <label key='All' className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
+        <span key='All' className='MachineListDeptTagWrapper'>
+          <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
+          <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
         </span>
         {
           uniqueDepartments.map((dept) => {
             return (
-              <span className='MachineListDeptTagWrapper'>
-                <input key={dept} onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
-                <label key={dept} className='MachineListDeptTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
+              <span key={dept} className='MachineListDeptTagWrapper'>
+                <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
+                <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
               </span>
             )
           })
@@ -76,9 +76,9 @@ const MachineList = () => {
         {
           uniqueCategories.map((cat) => {
             return (
-              <span className='MachineListCatTagWrapper'>
-                <input key={cat} onChange={handleCatTagFilter} type='radio' name='options' className='btn-check' id={cat} autoComplete='off'/>
-                <label key={cat} className='MachineListCatTag btn btn-outline-secondary' htmlFor={cat}>{cat}</label>
+              <span key={cat} className='MachineListCatTagWrapper'>
+                <input onChange={handleCatTagFilter} type='radio' name='options' className='btn-check' id={cat} autoComplete='off'/>
+                <label className='MachineListCatTag btn btn-outline-secondary' htmlFor={cat}>{cat}</label>
               </span>
             )
           })
