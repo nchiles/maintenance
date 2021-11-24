@@ -2,10 +2,11 @@ import React from "react";
 // import { Link } from "react-router-dom";
 
 function PrevMaintenanceListItem(props) {
+  const { frequency, procedure, name, completed_date, past_due} = props.procedure;
   return (
     <tr>
       <td className='PmsColOne'>
-        <p className='PmsFrequency'>{props.frequency}</p>
+        <p className='PmsFrequency'>{frequency}</p>
       </td> 
 
       <td className='MachinesColTwo'>
@@ -13,19 +14,19 @@ function PrevMaintenanceListItem(props) {
           <tbody>
             <tr>
               <td>
-                <div>{props.procedure}</div>
+                <div>{procedure}</div>
               </td>
             </tr>
             <tr>
               <td>
-              <div>{props.name}</div>
-              {/* <Link to={"/machines/" + props.machine._id} className='MachinesVectorName'>{props.vectorName}</Link> */}
+              <div>{name}</div>
+              {/* <Link to={"/machines/" + machine._id} className='MachinesVectorName'>{vectorName}</Link> */}
               </td>
             </tr>
             <tr>
               <td>
               <div>Manual</div>
-              {/* <img src={props.frequency} className='PmsFrequency' />  */}
+              {/* <img src={frequency} className='PmsFrequency' />  */}
               </td>              
             </tr>
           </tbody>
@@ -37,14 +38,14 @@ function PrevMaintenanceListItem(props) {
           <tbody>
             <tr>
               <td>
-                <div>{props.completedDate}</div>
-                {/* <div className='MachinesSerial'>{props.machine.serialNumber}</div> */}
+                <div>{completed_date}</div>
+                {/* <div className='MachinesSerial'>{machine.serialNumber}</div> */}
               </td>
             </tr>      
             <tr>
               <td>
-                <div>{props.pastDue === true ? 'Past Due' : ''}</div>
-                {/* <a href={props.machine.manualUrl} className="btn btn-dark MachinesManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Manual</a>       */}
+                <div>{past_due === true ? 'Past Due' : ''}</div>
+                {/* <a href={machine.manualUrl} className="btn btn-dark MachinesManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Manual</a>       */}
               </td>  
             </tr>
             <tr>

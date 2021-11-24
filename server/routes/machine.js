@@ -12,7 +12,7 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 
-// This section will help you get a list of all the machines.
+// get list of all the machines.
 machineRoutes.route("/machines").get(function (req, res) {
   let db_connect = dbo.getDb("machineDB");
   db_connect
@@ -29,16 +29,16 @@ machineRoutes.route("/machines").get(function (req, res) {
 machineRoutes.route("/machines/preventative-maintenance").get(function (req, res) {
   let db_connect = dbo.getDb("machineDB");
   db_connect
-    .collection("machines")
-    .find({ preventativeMaintenance: { $exists: true } })
-    .sort({vectorName: 1})
+    .collection("preventativeMaintenance")
+    .find()
+    .sort({frequency: 1})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
     });
 });
 
-// This section will help you get a single machine by id
+// get single machine by id
 machineRoutes.route("/machines/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
@@ -50,7 +50,7 @@ machineRoutes.route("/machines/:id").get(function (req, res) {
     });
 });
 
-// This section will help you create a new machine.
+// create new machine.
 machineRoutes.route("/machine/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
@@ -64,7 +64,7 @@ machineRoutes.route("/machine/add").post(function (req, response) {
   });
 });
 
-// This section will help you update a machine by id.
+// update machine by id.
 machineRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
@@ -84,7 +84,7 @@ machineRoutes.route("/update/:id").post(function (req, response) {
     });
 });
 
-// This section will help you delete a machine
+// delete machine
 machineRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};

@@ -1,94 +1,104 @@
-import React, { Component } from 'react';
-import '../css/PrevMaintenanceList.css'
-
+import React, { useState, useEffect } from 'react';
+import '../css/PrevMaintenanceList.css';
 import PrevMaintenanceListItem from './PrevMaintenanceListItem';
 
-class MaintenanceProceduresList extends Component {
-  constructor(props) {
-    super(props);
-    // this.updateFilterState = this.updateFilterState.bind(this);
-    this.state = { 
-      machines: [],
-      procedures: [],
-      filtered: 'All'
+
+const PrevMaintenanceList = () => {
+  const [procedures, setProcedures] = useState([]);
+  const [filteredProcedures, setFilteredProcedures] = useState([]);
+  // const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    console.log('useEffect called!')
+    const fetchData = async () => {
+      const res = await fetch('http://localhost:4000/machines/preventative-maintenance/');
+      const data = await res.json();
+      console.log(data)
+      setProcedures(data);          
+      setFilteredProcedures(data);          
     };
-  }
+    fetchData();
+  }, [])
 
-  //get data
-  componentDidMount() {
-    fetch('http://localhost:4000/machines/preventative-maintenance')
-      .then(res => {
-        return res.json()               
-      })
-      .then((data) => {
-        const prevMaintArrs = data.map((machine) => { return machine.preventativeMaintenance })
-        // console.log(prevMaintArrs.flat());
-        this.setState({ machines: data, procedures: prevMaintArrs.flat() });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  // //search filter
+  // const handleSearchFilter = (e) => {
+  //   //clear checked filter tag
+  //   var radioButton = document.getElementsByName('options');
+  //   for(var i = 0; i < radioButton.length; i++) {
+  //     radioButton[i].checked = false;
+  //   }      
 
-  // //set filter
-  // updateFilterState(event) {
-  //   console.log(event.target.id)    
-  //   this.setState({filtered: event.target.id});   
-  // }
-  
-  // //filter items
-  // filterItems = () => {
-  //   return this.state.filtered === 'All' ? this.state.machines : this.state.machines.filter(machine => machine.department === this.state.filtered)
+  //   let query = e.target.value.toLowerCase();
+  //   setFilteredProcedures(procedures.filter( machine => {
+  //     return machine.vector_name.toLowerCase().includes(query) || machine.manufacturer_name.toLowerCase().includes(query);
+  //   }));
   // }
 
-  //map filtered table
-  procedureList() {
-    console.log(this.state.machines)
-    return this.state.procedures.map((procedure) => {
-      return (
-        <PrevMaintenanceListItem
-          procedure={procedure.procedure}
-          frequency={procedure.frequency}
-          name={procedure.vectorMachineName}
-          completedDate={procedure.completedDate}
-          pastDue={procedure.pastDue}
-          key={procedure.id}
-        />
-      );
-    });
-  }
+  // //tag filters
+  // const handleDeptTagFilter = e => {
+  //   setFilteredProcedures(e.target.id === 'All' ? procedures : procedures.filter(machine => machine.department === e.target.id));
+  // }
+
+  // const handleCatTagFilter = e => {
+  //   setFilteredProcedures(e.target.id === 'All' ? procedures : procedures.filter(machine => machine.category === e.target.id));
+  // }
+
+  // //get filter tags
+  // const uniqueDepartments = [...new Set(procedures.map(machine => machine.department))].sort();
+  // const uniqueCategories = [...new Set(procedures.map(machine => machine.category))].sort();
 
   //render table
-  render() {    
-    return (
-      <div className='container'>                
-        <div className='TitleRow'>  
-          <h1 className='MachinesTitle'>Maintenance Procedures</h1>      
-          {/* <div className='MachinesTags'>
-            <input value={this.state.filtered} onChange={this.updateFilterState} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
-            <label className='MachinesTag btn btn-outline-secondary' htmlFor='All'>All</label>
+  return (
+    <div className='container'>                
+      <div className='TitleRow'>  
+        <h1 className='MachineListTitle'>Preventative Maintenance</h1>
 
-            <input value={this.state.filtered} onChange={this.updateFilterState} type='radio' name='options' className='btn-check' id='Production' autoComplete='off' />
-            <label className='MachinesTag btn btn-outline-secondary' htmlFor='Production'>Production</label>
-
-            <input value={this.state.filtered} onChange={this.updateFilterState} type='radio' name='options' className='btn-check' id='Prepress' autoComplete='off' />
-            <label className='MachinesTag btn btn-outline-secondary' htmlFor='Prepress'>Prepress</label>
-
-            <input value={this.state.filtered} onChange={this.updateFilterState} type='radio' name='options' className='btn-check' id='Fulfillment' autoComplete='off' />
-            <label className='MachinesTag btn btn-outline-secondary' htmlFor='Fulfillment'>Fulfillment</label>
-            
-            <input value={this.state.filtered} onChange={this.updateFilterState} type='radio' name='options' className='btn-check' id='Other' autoComplete='off' />
-            <label className='MachinesTag btn btn-outline-secondary' htmlFor='Other'>Other</label>
-          </div> */}
-        </div>
-
-        <table className='table table-hover align-middle'>
-          <thead></thead>
-          <tbody>{this.procedureList()}</tbody>
-        </table>
+        {/* <div className='MachineListSearchContainer'>
+          <input className='form-control MachineListSearch' onChange={handleSearchFilter} placeholder='search...'></input>  
+        </div> */}
       </div>
-    );
-  }
+       
+      {/* <div className='MachineListDeptTags'>
+        <span key='All' className='MachineListDeptTagWrapper'>
+          <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
+          <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
+        </span>
+        {
+          uniqueDepartments.map((dept) => {
+            return (
+              <span key={dept} className='MachineListDeptTagWrapper'>
+                <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
+                <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
+              </span>
+            )
+          })
+        }
+      </div>
+      <div className='MachineListCatTags'>
+        {
+          uniqueCategories.map((cat) => {
+            return (
+              <span key={cat} className='MachineListCatTagWrapper'>
+                <input onChange={handleCatTagFilter} type='radio' name='options' className='btn-check' id={cat} autoComplete='off'/>
+                <label className='MachineListCatTag btn btn-outline-secondary' htmlFor={cat}>{cat}</label>
+              </span>
+            )
+          })
+        }
+      </div> */}
+     
+      <table className='table table-hover align-middle'>
+        <thead></thead>
+        <tbody>
+          {filteredProcedures.length > 0 ? filteredProcedures.map(procedure => (
+            <PrevMaintenanceListItem 
+              procedure={procedure} 
+              key={procedure._id}/>
+          )): <tr><td><h3>Nothing found, try again</h3></td></tr>}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
-export default MaintenanceProceduresList;
+export default PrevMaintenanceList;
