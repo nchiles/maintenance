@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import '../css/PrevMaintenanceList.css';
 import PrevMaintenanceListItem from './PrevMaintenanceListItem';
 
 
-const PrevMaintenanceList = () => {
+const PrevMaintenanceList = (props) => {
   const [procedures, setProcedures] = useState([]);
   const [filteredProcedures, setFilteredProcedures] = useState([]);
   // const [search, setSearch] = useState('');
+  const { slug } = useParams();
+
 
   useEffect(() => {
     console.log('useEffect called!')
     const fetchData = async () => {
       const res = await fetch('http://localhost:4000/machines/preventative-maintenance/');
       const data = await res.json();
-      console.log(data)
+      // console.log(data)
       setProcedures(data);          
-      setFilteredProcedures(data);          
+      // setFilteredProcedures(data);  
+      setFilteredProcedures(slug === undefined ? data : data.filter(procedure => procedure.machine[0]._id === slug));        
     };
     fetchData();
   }, [])
+
+
+  const handleFilter = () => {
+    
+    console.log(filteredProcedures)
+  }
+  
+  // console.log(slug);
 
   // //search filter
   // const handleSearchFilter = (e) => {
@@ -92,8 +104,10 @@ const PrevMaintenanceList = () => {
         <tbody>
           {filteredProcedures.length > 0 ? filteredProcedures.map(procedure => (
             <PrevMaintenanceListItem 
+              filter={handleFilter}
               procedure={procedure} 
-              key={procedure._id}/>
+              key={procedure._id}
+              />
           )): <tr><td><h3>Nothing found, try again</h3></td></tr>}
         </tbody>
       </table>
