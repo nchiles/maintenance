@@ -1,7 +1,64 @@
-.PmsColOne {
-  width: 10%;
+.btn-check:focus + .btn-outline-secondary, .btn-outline-secondary:focus {
+  box-shadow: none !important;
 }
 
-/* .PmsFrequency {
-  transform: rotate(-90deg);
-} */
+.PmListManualButton:hover {
+  background-color:#6c757d !important;
+  border-color: #707b85 !important;
+}
+
+.PmListColOne {
+  vertical-align: middle;
+  text-align: center;
+  padding:0px 0px 0px 0px !important;
+  background-color: #eee !important;
+  color: #00000036;
+  font-weight: 700;
+}
+
+.PmListFrequency {
+  /* padding-bottom: 75px; */
+  font-size: 1.2rem;
+}
+
+.PmsListProcedure {
+  text-decoration: none;
+  color: black;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.PmListVectorName {
+  color: #6c757d;
+}
+
+.PmListImgLinkContainer {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.PrevMaintImg {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  margin-right: 10px;;
+}
+
+.PrevMaintImg:hover {
+  background-color: rgb(172, 172, 172);
+}
+
+.PmListPastDue {
+  font-size: 8px;
+  color: rgb(114, 0, 0);
+}
+
+.PmListCompletedDate, .PmListPastDue, .PmListManualButton {
+  text-align: right;
+  width: 150px;
+}
+
+.PmListPastDue {
+  margin-bottom: 20px;
+}

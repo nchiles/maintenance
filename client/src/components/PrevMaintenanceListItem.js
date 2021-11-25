@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import '../css/PrevMaintenanceList.css';
+import manualImage from '../img/manual.png';
 
 function PrevMaintenanceListItem(props) {
   const { frequency, procedure, completed_date, past_due } = props.procedure;
-  const { vector_name, _id, manual_url } = props.procedure.machine[0];
+  const { vector_name, _id, manual_url, image } = props.procedure.machine[0];
 
   const getFrequencyString = (freq) => {
     let frequencyString;
@@ -26,52 +28,52 @@ function PrevMaintenanceListItem(props) {
     return frequencyString;
   }
 
-  const formattedDate = (new Date(completed_date)).toLocaleDateString("en-US")
+  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = (new Date(completed_date)).toLocaleDateString("en-US", options)
     
   return (
     <tr>
-      <td className='PmsColOne'>
-        <p className='PmsFrequency'>{getFrequencyString(frequency)}</p>
+      <td className='PmListColOne'>
+        <div className='PmListFrequency'>{getFrequencyString(frequency)}</div>
       </td> 
 
-      <td className='MachinesColTwo'>
+      <td className='PmListColTwo'>
         <table>
           <tbody>
             <tr>
               <td>
-                <div>{procedure}</div>
-              </td>
-            </tr>
-            <tr>
-              <td>              
-                <Link to={"/machines/" + _id} className='MachinesVectorName'>{vector_name}</Link>
+                <div className='PmsListProcedure'>{procedure}</div>
               </td>
             </tr>
             <tr>
               <td>
-                <a href={manual_url} className='MachinesVectorName' target='_blank' rel='noopener noreferrer'>Manual</a>
-              </td>              
+                <div className='PmListVectorName'>{vector_name}</div>
+                <div className='PmListImgLinkContainer'>
+                  <Link to={"/machines/" + _id}><img src={image} className='PrevMaintImg' /></Link>
+                  <a href={manual_url} className='MachinesVectorName' target='_blank' rel='noopener noreferrer'><img src={manualImage} className='PrevMaintImg' /></a>
+                </div>          
+              </td>
             </tr>
           </tbody>
         </table>
       </td>
 
-      <td className='MachinesColThree'>
+      <td className='PmListColThree'>
         <table>
           <tbody>
             <tr>
               <td>
-                <div>{formattedDate}</div>              
+                <div className='PmListCompletedDate'>{formattedDate}</div>              
               </td>
             </tr>      
             <tr>
               <td>
-                <div>{past_due === true ? 'Past Due' : ''}</div>
+                <div className='PmListPastDue'>{past_due === true ? 'Past Due' : ''}</div>
               </td>  
             </tr>
             <tr>
               <td>                
-                <a href={'#'} className="btn btn-dark" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Update</a>      
+                <a href={'#'} className="btn btn-dark PmListManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Update</a>      
               </td>  
             </tr>
           </tbody>

@@ -4,7 +4,7 @@
 
 .MachineListManualButton:hover {
   background-color:#6c757d !important;
-  border-color: #6c757d;
+  border-color: #6c757d !important;
 }
 
 .MachineListColOne {
@@ -38,7 +38,7 @@
 
 .MachineListManualButton, .MachineListSerial {
   text-align: right;
-  width: 140px;
+  width: 150px;
 }
 
 .MachineListSerial {

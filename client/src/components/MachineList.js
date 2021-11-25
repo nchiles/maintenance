@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/MachineList.css'
+import '../css/MachineList.css';
 import MachineListItem from './MachineListItem';
 
 const MachineList = () => {
