@@ -5,3 +5,15 @@ body {
 .container {
   max-width: 900px
 }
+
+.loading-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  font-size: 2rem;
+  color: lightgray;
+}

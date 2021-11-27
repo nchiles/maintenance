@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import '../css/MachineList.css';
 import MachineListItem from './MachineListItem';
+import Loading from './Loading';
+import PrimaryTags from './PrimaryTags';
+import SecondaryTags from './SecondaryTags';
+import TitleRow from './TitleRow';
 
 const MachineList = () => {
   const [machines, setMachines] = useState([]);
   const [filteredMachines, setFilteredMachines] = useState([]);
-  // const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log('useEffect called!')
@@ -13,7 +17,8 @@ const MachineList = () => {
       const res = await fetch('http://localhost:4000/machines/');
       const data = await res.json();
       setMachines(data);          
-      setFilteredMachines(data);          
+      setFilteredMachines(data); 
+      setIsLoading(true);        
     };
     fetchData();
   }, [])
@@ -34,11 +39,11 @@ const MachineList = () => {
 
   //tag filters
   const handleDeptTagFilter = e => {
-    setFilteredMachines(e.target.id === 'All' ? machines : machines.filter(machine => machine.department === e.target.id));
+    setFilteredMachines(e.target.value === 'All' ? machines : machines.filter(machine => machine.department === e.target.value));
   }
 
   const handleCatTagFilter = e => {
-    setFilteredMachines(e.target.id === 'All' ? machines : machines.filter(machine => machine.category === e.target.id));
+    setFilteredMachines(e.target.value === 'All' ? machines : machines.filter(machine => machine.category === e.target.value));
   }
 
   //get filter tags
@@ -46,44 +51,12 @@ const MachineList = () => {
   const uniqueCategories = [...new Set(machines.map(machine => machine.category))].sort();
 
   //render table
-  return (
+  return (    
+    !isLoading ? <Loading loading={'equipment'}/> :
     <div className='container'>                
-      <div className='TitleRow'>  
-        <h1 className='MachineListTitle'>Equipment</h1>
-
-        <div className='MachineListSearchContainer'>
-          <input className='form-control MachineListSearch' onChange={handleSearchFilter} placeholder='search...'></input>  
-        </div>
-      </div>
-       
-      <div className='MachineListDeptTags'>
-        <span key='All' className='MachineListDeptTagWrapper'>
-          <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
-          <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
-        </span>
-        {
-          uniqueDepartments.map((dept) => {
-            return (
-              <span key={dept} className='MachineListDeptTagWrapper'>
-                <input onChange={handleDeptTagFilter} type='radio' name='options' className='btn-check' id={dept} autoComplete='off'/>
-                <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor={dept}>{dept}</label>
-              </span>
-            )
-          })
-        }
-      </div>
-      <div className='MachineListCatTags'>
-        {
-          uniqueCategories.map((cat) => {
-            return (
-              <span key={cat} className='MachineListCatTagWrapper'>
-                <input onChange={handleCatTagFilter} type='radio' name='options' className='btn-check' id={cat} autoComplete='off'/>
-                <label className='MachineListCatTag btn btn-outline-secondary' htmlFor={cat}>{cat}</label>
-              </span>
-            )
-          })
-        }
-      </div>
+      <TitleRow title={'Equipment'} filter={handleSearchFilter}/> 
+      <PrimaryTags filter={handleDeptTagFilter} uniqueTags={uniqueDepartments} />
+      <SecondaryTags filter={handleCatTagFilter} uniqueTags={uniqueCategories} />
      
       <table className='table table-hover align-middle'>
         <thead></thead>

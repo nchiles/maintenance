@@ -18,7 +18,7 @@ machineRoutes.route("/machines").get(function (req, res) {
   db_connect
     .collection("machines")
     .find({})
-    .sort({vectorName: 1})
+    .sort({vector_name: 1})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
@@ -41,23 +41,12 @@ machineRoutes.route("/machines/preventative-maintenance").get(function (req, res
         }
       }
     ])
-    .sort({frequency: 1})
+    .sort({past_due: -1, frequency: 1})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
     });
 });
-// machineRoutes.route("/machines/preventative-maintenance").get(function (req, res) {
-//   let db_connect = dbo.getDb("machineDB");
-//   db_connect
-//     .collection("preventativeMaintenance")
-//     .find()
-//     .sort({frequency: 1})
-//     .toArray(function (err, result) {
-//       if (err) throw err;
-//       res.json(result);
-//     });
-// });
 
 // get single machine by id
 machineRoutes.route("/machines/:id").get(function (req, res) {
