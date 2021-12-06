@@ -12,9 +12,13 @@
   vertical-align: middle;
   text-align: center;
   padding:0px 0px 0px 0px !important;
-  background-color: #eee !important;
+  background-color: #71717112 !important;
   color: #00000036;
   font-weight: 700;
+}
+
+.PmListColThree {
+  width: 0.001%;
 }
 
 .PmListFrequency {

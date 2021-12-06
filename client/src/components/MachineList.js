@@ -5,6 +5,7 @@ import Loading from './Loading';
 import PrimaryTags from './PrimaryTags';
 import SecondaryTags from './SecondaryTags';
 import TitleRow from './TitleRow';
+import SearchBox from './SearchBox';
 
 const MachineList = () => {
   const [machines, setMachines] = useState([]);
@@ -39,11 +40,13 @@ const MachineList = () => {
 
   //tag filters
   const handleDeptTagFilter = e => {
+    console.log(e.target.value)
     setFilteredMachines(e.target.value === 'All' ? machines : machines.filter(machine => machine.department === e.target.value));
   }
 
   const handleCatTagFilter = e => {
-    setFilteredMachines(e.target.value === 'All' ? machines : machines.filter(machine => machine.category === e.target.value));
+    console.log(e.target.id)
+    setFilteredMachines(e.target.id === 'All' ? machines : machines.filter(machine => machine.category === e.target.id));
   }
 
   //get filter tags
@@ -52,12 +55,16 @@ const MachineList = () => {
 
   //render table
   return (    
-    !isLoading ? <Loading loading={'equipment'}/> :
+    
     <div className='container'>                
-      <TitleRow title={'Equipment'} filter={handleSearchFilter}/> 
+      <div className='TitleRow'>  
+        <TitleRow title={'Equipment'}/>              
+        <SearchBox filter={handleSearchFilter}/>
+      </div>  
+      { !isLoading ? <Loading loading={'equipment'}/> : 
+      <div>
       <PrimaryTags filter={handleDeptTagFilter} uniqueTags={uniqueDepartments} />
-      <SecondaryTags filter={handleCatTagFilter} uniqueTags={uniqueCategories} />
-     
+      <SecondaryTags filter={handleCatTagFilter} uniqueTags={uniqueCategories} />      
       <table className='table table-hover align-middle'>
         <thead></thead>
         <tbody>
@@ -66,6 +73,8 @@ const MachineList = () => {
           )): <tr><td><h3>Nothing found, try again</h3></td></tr>}
         </tbody>
       </table>
+      </div>
+      }
     </div>
   );
 }

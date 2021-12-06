@@ -90,7 +90,8 @@ machineRoutes.route("/machines/preventative-maintenance/update/:id")
       }      
     },
     $set: {
-      completed_date: new Date()
+      completed_date: new Date(),
+      past_due: false
     }
   }
   db_connect

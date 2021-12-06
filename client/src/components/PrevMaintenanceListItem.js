@@ -47,9 +47,11 @@ function PrevMaintenanceListItem(props) {
 
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = (new Date(completed_date)).toLocaleDateString("en-US", options)
-    
+
+  // document.getElementById('PmProcedureRow').style.property = 'background-color: red';
+
   return (
-    <tr>
+    <tr id='PmProcedureRow'>
       <td className='PmListColOne'>
         <div className='PmListFrequency'>{getFrequencyString(frequency)}</div>
       </td> 

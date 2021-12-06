@@ -6,7 +6,7 @@ const PrimaryTags = (props) => {
   return (
     <div className='MachineListDeptTags'>
       <span key='All' className='MachineListDeptTagWrapper'>
-        <input onChange={props.filter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
+        <input value='All' onChange={props.filter} type='radio' name='options' className='btn-check' id='All' autoComplete='off' />
         <label className='MachineListDeptTag btn btn-outline-secondary' htmlFor='All' >All</label>
       </span>
       {

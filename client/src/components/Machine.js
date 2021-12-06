@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import '../css/Machine.css';
+import '../css/PrevMaintenanceList.css';
 import PrevMaintenanceList from "./PrevMaintenanceList";
 import Loading from "./Loading";
 
@@ -48,9 +49,9 @@ function Machine() {
               <div className="MachineModel">{model}</div>
             </div>          
             <div className='MachineButtonContainer'>
-              <a href={manual_url} class="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Manual</a>
-              <a href={parts_url} class="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Parts</a>
-              <a href={'#'} class="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Maintenance</a>
+              <a href={manual_url} className="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Manual</a>
+              <a href={parts_url} className="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Parts</a>
+              <a href={'#'} className="btn btn-dark btn-lg MachineCardButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Maintenance</a>
             </div>
           </div>
         </div>
