@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../css/PrevMaintenanceList.css';
 import manualImage from '../img/manual.png';
+import { useParams } from 'react-router-dom';
 
 function PrevMaintenanceListItem(props) {
   const { frequency, procedure, completed_date, past_due } = props.procedure;
   const { vector_name, _id, manual_url, image } = props.procedure.machine[0];
+  const [updatedDate, setUpdatedDate] = useState();
+  const { slug } = useParams();
+
+  // useEffect(() => {
+  //   console.log('useEffect called!')
+  //   const fetchData = async () => {
+  //     const res = await fetch('http://localhost:4000/machines/preventative-maintenance/update/:id');
+  //     const data = await res.json();
+  //     // console.log(data)
+  //     setUpdatedDate(data);          
+  //     // set filtered procedures based on url 
+  //     // setFilteredProcedures(slug === undefined ? data : data.filter(procedure => procedure.machine[0]._id === slug));
+  //     // setIsLoading(true);        
+  //   };
+  //   fetchData();
+  // }, [])
 
   const getFrequencyString = (freq) => {
     let frequencyString;
@@ -73,7 +90,7 @@ function PrevMaintenanceListItem(props) {
             </tr>
             <tr>
               <td>                
-                <a href={'#'} className="btn btn-dark PmListManualButton" role="button" aria-disabled="true" target="_blank" rel="noopener noreferrer">Update</a>      
+                <button onClick={() => props.onUpdate(props.procedure._id)} className="btn btn-dark PmListManualButton">Update</button>      
               </td>  
             </tr>
           </tbody>

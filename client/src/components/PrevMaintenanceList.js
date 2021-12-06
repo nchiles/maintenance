@@ -7,12 +7,14 @@ import TitleRow from './TitleRow';
 import Loading from './Loading';
 
 
-const PrevMaintenanceList = (props) => {
+const PrevMaintenanceList = () => {
   const [procedures, setProcedures] = useState([]);
   const [filteredProcedures, setFilteredProcedures] = useState([]);
-  // const [search, setSearch] = useState('');
+  const [selectedTag, setSelectedTag] = useState('All');
   const { slug } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+
+  // filtered state should have frequency, render page, search result
 
 
   useEffect(() => {
@@ -29,7 +31,6 @@ const PrevMaintenanceList = (props) => {
     fetchData();
   }, [])
 
-
   // const sortedProcedures = filteredProcedures
   // .sort((a, b) => {
   //   if (a.frequency > b.frequency) return 1;
@@ -37,23 +38,23 @@ const PrevMaintenanceList = (props) => {
   //   return 0;
   // })
 
-
   // //search filter
   const handleSearchFilter = (e) => {
-    //clear checked filter tag
+    // clear checked filter tag
     var radioButton = document.getElementsByName('options');
     for(var i = 0; i < radioButton.length; i++) {
       radioButton[i].checked = false;
     }      
 
     let query = e.target.value.toLowerCase();
-    setFilteredProcedures(procedures.filter( machine => {
-      return machine.vector_name.toLowerCase().includes(query) || machine.manufacturer_name.toLowerCase().includes(query);
+    setFilteredProcedures(procedures.filter( procedure => {
+      return procedure.machine[0].vector_name.toLowerCase().includes(query) || procedure.machine[0].manufacturer_name.toLowerCase().includes(query) || procedure.procedure.toLowerCase().includes(query);
     }));
   }
 
   // //tag filters
   const handleFrequencyFilter = e => {
+    setSelectedTag(e.target.id);
     setFilteredProcedures(e.target.id === 'All' ? procedures : procedures.filter(procedure => (procedure.frequency).toString() === e.target.id));    
   }
 
@@ -76,6 +77,45 @@ const PrevMaintenanceList = (props) => {
         break
     }
     return frequencyString;
+  }
+
+  const handleUpdate = (id) => {
+    fetch('http://localhost:4000/machines/preventative-maintenance/update/' + id, {
+      method: 'POST'
+    })
+    .then((data) => {
+      if (data.status === 200) {
+        fetch('http://localhost:4000/machines/preventative-maintenance/')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setProcedures(data);
+          return data;
+        })
+        .then((updatedData) => {
+          const newList = filteredProcedures.map((item) => {   
+            let updatedItem = updatedData.filter(item => item._id === id);   
+            if (item._id === id) {
+              console.log('match!')
+              let index = filteredProcedures.findIndex(item => item._id === id);
+              console.log(index);
+              console.log(updatedItem);
+              return filteredProcedures[index] = updatedItem[0];             
+            }
+            return item;          
+          });          
+          return newList;
+        })
+        .then((updatedList) => {
+          console.log(updatedList)
+          setFilteredProcedures(updatedList);
+        })
+      } else {
+        console.log('post error')
+      }
+    })    
+    .catch((err) => console.log(err));
   }
   
 
@@ -131,6 +171,7 @@ const PrevMaintenanceList = (props) => {
             <PrevMaintenanceListItem 
               procedure={procedure} 
               key={procedure._id}
+              onUpdate={handleUpdate}
               />
           )): <tr><td><h3>Nothing found, try again</h3></td></tr>}
         </tbody>

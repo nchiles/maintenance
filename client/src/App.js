@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import MachineList from "./components/MachineList";
 import Machine from "./components/Machine";
 import PrevMaintenanceList from "./components/PrevMaintenanceList";
+import PrevMaintenanceListItem from "./components/PrevMaintenanceListItem";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='machines' element={<MachineList/>}/>
           <Route path='machines/:slug' element={<Machine/>}/>
           <Route path='machines/preventative-maintenance' element={<PrevMaintenanceList/>}/>
+          <Route path='machines/preventative-maintenance/update/619d46e02be57fb1f85305f1' element={<PrevMaintenanceListItem/>}/>
         </Routes>
       </Router>
     </div>

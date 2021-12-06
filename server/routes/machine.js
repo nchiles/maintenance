@@ -74,20 +74,28 @@ machineRoutes.route("/machine/add").post(function (req, response) {
   });
 });
 
-// update machine by id.
-machineRoutes.route("/update/:id").post(function (req, response) {
-  let db_connect = dbo.getDb();
+// update maintenance procedure by id.
+machineRoutes.route("/machines/preventative-maintenance/update/:id")
+.post(function (req, response) {
+  let db_connect = dbo.getDb('machineDB');
   let myquery = { _id: ObjectId( req.params.id )};
-  let newvalues = {
-    $set: {
-      person_name: req.body.person_name,
-      person_position: req.body.person_position,
-      person_level: req.body.person_level,
+  // console.log(myquery)
+  let updateDetails = {
+    $push: {
+      update_details: {
+        update_date: new Date(),
+        update_initials: "b",
+        update_notes: "",
+        _id: new ObjectId()
+      }      
     },
-  };
+    $set: {
+      completed_date: new Date()
+    }
+  }
   db_connect
-    .collection("machines")
-    .updateOne(myquery, newvalues, function (err, res) {
+    .collection("preventativeMaintenance")
+    .updateOne(myquery, updateDetails, function (err, res) {
       if (err) throw err;
       console.log("1 document updated");
       response.json(res);
@@ -106,3 +114,15 @@ machineRoutes.route("/:id").delete((req, response) => {
 });
 
 module.exports = machineRoutes;
+
+
+// db.preventativeMaintenance.find({ _id: ObjectId('619d46e02be57fb1f85305cd') }).forEach((proc) => { 
+//   console.log(proc);
+// })
+
+// db.preventativeMaintenance.find({ update_details : { $type: "string" } }).forEach((proc) => { 
+//   db.preventativeMaintenance.updateOne(
+//     { "_id" : proc._id },
+//     { $set: { update_details : [ proc.update_details ] } }
+//   ); 
+// })
