@@ -16,7 +16,7 @@ function Navbar() {
               <Link to={"/machines"} className="nav-link">Equipment</Link>
             </li>          
             <li className="nav-item active">
-              <Link to={"/machines/preventative-maintenance"} className="nav-link">Maintenance</Link>
+              <Link to={"/preventative-maintenance"} className="nav-link">Maintenance</Link>
             </li>          
           </ul>
         </div>

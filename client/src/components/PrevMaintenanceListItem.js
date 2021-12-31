@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import '../css/PrevMaintenanceList.css';
 import manualImage from '../img/manual.png';
 import { useParams } from 'react-router-dom';
+import Loading from './Loading';
+import Sheet, { SheetRef } from 'react-modal-sheet';
 
 function PrevMaintenanceListItem(props) {
   const { frequency, procedure, completed_date, past_due } = props.procedure;
   const { vector_name, _id, manual_url, image } = props.procedure.machine[0];
   const [updatedDate, setUpdatedDate] = useState();
   const { slug } = useParams();
+
+  const [isOpen, setOpen] = useState(false);
+  // const ref = useRef<SheetRef>();
+  // const snapTo = (i: number) => ref.current?.snapTo(i);
 
   // useEffect(() => {
   //   console.log('useEffect called!')
@@ -50,8 +56,22 @@ function PrevMaintenanceListItem(props) {
 
   // document.getElementById('PmProcedureRow').style.property = 'background-color: red';
 
-  return (
+
+
+  return (    
     <tr id='PmProcedureRow'>
+      <Sheet 
+        isOpen={isOpen} 
+        onClose={() => setOpen(false)}
+        snapPoints={[600, 400, 100, 0]}      
+      >
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content><button onClick={() => setOpen(false)}>Close</button></Sheet.Content>
+        </Sheet.Container>
+
+        <Sheet.Backdrop />
+      </Sheet>
       <td className='PmListColOne'>
         <div className='PmListFrequency'>{getFrequencyString(frequency)}</div>
       </td> 
@@ -61,7 +81,9 @@ function PrevMaintenanceListItem(props) {
           <tbody>
             <tr>
               <td>
-                <div className='PmsListProcedure'>{procedure}</div>
+                <div className='PmsListProcedure'>
+                  <a onClick={() => setOpen(true)}>{procedure}</a>
+                </div>
               </td>
             </tr>
             <tr>
@@ -92,7 +114,7 @@ function PrevMaintenanceListItem(props) {
             </tr>
             <tr>
               <td>                
-                <button onClick={() => props.onUpdate(props.procedure._id)} className="btn btn-dark PmListManualButton">Update</button>      
+                <button onClick={ () => props.onUpdate(props.procedure._id)} className="btn btn-dark PmListManualButton">{ !props.updating ? 'Update' : 'Updating' }</button>      
               </td>  
             </tr>
           </tbody>

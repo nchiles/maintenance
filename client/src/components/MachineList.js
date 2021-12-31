@@ -54,8 +54,7 @@ const MachineList = () => {
   const uniqueCategories = [...new Set(machines.map(machine => machine.category))].sort();
 
   //render table
-  return (    
-    
+  return (        
     <div className='container'>                
       <div className='TitleRow'>  
         <TitleRow title={'Equipment'}/>              

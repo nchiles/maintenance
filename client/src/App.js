@@ -16,8 +16,8 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='machines' element={<MachineList/>}/>
           <Route path='machines/:slug' element={<Machine/>}/>
-          <Route path='machines/preventative-maintenance' element={<PrevMaintenanceList/>}/>
-          <Route path='machines/preventative-maintenance/update/619d46e02be57fb1f85305f1' element={<PrevMaintenanceListItem/>}/>
+          <Route path='preventative-maintenance' element={<PrevMaintenanceList/>}/>
+          <Route path='preventative-maintenance/update/:slug' element={<PrevMaintenanceListItem/>}/>
         </Routes>
       </Router>
     </div>

@@ -8,6 +8,7 @@ import SearchBox from './SearchBox';
 import Loading from './Loading';
 
 
+
 const PrevMaintenanceList = () => {
   const [procedures, setProcedures] = useState([]);
   const [filteredProcedures, setFilteredProcedures] = useState([]);  
@@ -15,13 +16,14 @@ const PrevMaintenanceList = () => {
   // const [selectedTag, setSelectedTag] = useState('All');
   const { slug } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // filtered state should have frequency, render page, search result
 
   useEffect(() => {
     console.log('useEffect called!')
     const fetchData = async () => {
-      const res = await fetch('http://localhost:4000/machines/preventative-maintenance/');
+      const res = await fetch('http://localhost:4000/preventative-maintenance/');
       const data = await res.json();
       setProcedures(data);
       setFilteredProcedures(data);
@@ -77,36 +79,79 @@ const PrevMaintenanceList = () => {
   }
 
   const handleUpdate = (id) => {
-    fetch('http://localhost:4000/machines/preventative-maintenance/update/' + id, {
-      method: 'POST'
-    })
+    let initials = 'NC' 
+    // filteredProcedures.filter(item => item._id === id ? console.log(item) : console.log('not found'))
+    
+    //make copy of procedures
+    let items = [...filteredProcedures];
+    //copy of item to be updated
+    let item = items.filter(item => item._id === id);
+    console.log(item);
+    //get index of item
+    let itemIndex = items.indexOf(items.filter(item => item._id === id));
+    //update properties
+    item[0].update_details.unshift({
+      update_date: new Date(),
+      update_initials: initials,
+      update_notes: ""
+    });
+    item[0].completed_date = new Date();
+    item[0].past_due = false;
+    //put updated item back in array
+    items[itemIndex] = item;
+    
+    //send updated item to server
+    console.log('to server' + JSON.stringify(item[0]))
+    fetch('http://localhost:4000/preventative-maintenance/update/' + id, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(item[0])
+    })   
     .then((data) => {
       if (data.status === 200) {
-        fetch('http://localhost:4000/machines/preventative-maintenance/')
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setProcedures(data);
-          const newList = filteredProcedures.map((item) => {   
-            let updatedItem = data.filter(item => item._id === id);   
-            if (item._id === id) {
-              console.log('match!')
-              let index = filteredProcedures.findIndex(item => item._id === id);
-              console.log(index);
-              console.log(updatedItem);
-              return filteredProcedures[index] = updatedItem[0];             
-            }
-            return item;          
-          });          
-          setFilteredProcedures(newList);
-        })
+        //set filteredProcedures state with updated item
+        setFilteredProcedures(items);
+        setIsUpdating(false)
       } else {
         console.log('post error')
       }
     })    
     .catch((err) => console.log(err));
   }
+
+  // const handleUpdate = (id) => {
+  //   // filteredProcedures.filter(item => item._id === id ? console.log(item) : console.log('not found'))      
+  //   fetch('http://localhost:4000/preventative-maintenance/update/' + id, {
+  //     method: 'POST'
+  //   })
+  //   .then((data) => {
+  //     if (data.status === 200) {
+  //       fetch('http://localhost:4000/preventative-maintenance/')
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         setProcedures(data);
+  //         const newList = filteredProcedures.map((item) => {   
+  //           let updatedItem = data.filter(item => item._id === id);   
+  //           if (item._id === id) {
+  //             console.log('match!')
+  //             let index = filteredProcedures.findIndex(item => item._id === id);
+  //             console.log(index);
+  //             console.log(updatedItem);
+  //             return filteredProcedures[index] = updatedItem[0];             
+  //           }
+  //           return item;          
+  //         });          
+  //         setFilteredProcedures(newList);
+  //         setIsUpdating(false)
+  //       })
+  //     } else {
+  //       console.log('post error')
+  //     }
+  //   })    
+  //   .catch((err) => console.log(err));
+  // }
   
 
   // const handleCatTagFilter = e => {
@@ -120,9 +165,8 @@ const PrevMaintenanceList = () => {
 
   //render table
   return (
-
+    
     <div className='container'>
-      
       <div className='TitleRow'>  
         <TitleRow title={'Preventative Maintenance'}/>              
         {!isMachinePage ? <SearchBox filter={handleSearchFilter}/> : null}
@@ -134,11 +178,12 @@ const PrevMaintenanceList = () => {
       <table className='table table-hover align-middle'>
         <thead></thead>
         <tbody>
-          {pageProcedures.length > 0 ? pageProcedures.map(procedure => (
+          {pageProcedures.length > 0 ? pageProcedures.map(procedure => (           
             <PrevMaintenanceListItem 
               procedure={procedure} 
               key={procedure._id}
               onUpdate={handleUpdate}
+              updating={isUpdating}
               />
           )): <tr><td><h3>Nothing here 🤔</h3></td></tr>}
         </tbody>
